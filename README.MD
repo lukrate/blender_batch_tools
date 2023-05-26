@@ -11,7 +11,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Addon
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+[![Product Name Screen Shot][product-screenshot]](images/capture_00.jpg)
 
 This is a simple addon to make multiple actions on multiple objects in the same time.
 
@@ -44,9 +44,4 @@ This is a simple addon to make multiple actions on multiple objects in the same 
     - Cast Shadow
     - Receive Shadow
 
-[![LinkedIn][linkedin-shield]][linkedin-url]
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[linkedin-url]: https://www.linkedin.com/company/sepafo-ge
 [product-screenshot]: images/capture_00.jpg
