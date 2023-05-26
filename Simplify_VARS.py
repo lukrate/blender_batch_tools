@@ -3,6 +3,8 @@ import bpy
 def registerDataTypes():
     bpy.types.Scene.simplify_use_sharp = bpy.props.BoolProperty(name="Add Sharp", description="Add Sharp to the Sharp Edges", default=False)
     bpy.types.Scene.simplify_use_seam = bpy.props.BoolProperty(name="Add Seam", description="Add Seam to the Sharp Edges", default=False)
+    bpy.types.Scene.simplify_auto_select_sharp_value = bpy.props.FloatProperty(name="Sharpness Value", description="Sharpness Value (min: 0.00, max: 180.00)", default=30.00, min=0.00, max=180.00, step=5)
+    
     bpy.types.Scene.simplify_use_auto_smooth = bpy.props.BoolProperty(name="Auto Smooth", description="Auto Smooth", default=False)
     bpy.types.Scene.simplify_auto_smooth_value = bpy.props.FloatProperty(name="Auto Smooth Value", description="Auto Smooth Value (min: 0.00, max: 180.00)", default=80.00, min=0.00, max=180.00, step=5)
     bpy.types.Scene.simplify_use_recalulate_outside = bpy.props.BoolProperty(name="Recalculate outside", description="Recalculate normal outside", default=False)
@@ -30,6 +32,8 @@ def registerDataTypes():
 def unregisterDataTypes():
     del bpy.types.Scene.simplify_use_sharp
     del bpy.types.Scene.simplify_use_seam
+    del bpy.types.Scene.simplify_auto_select_sharp_value
+
     del bpy.types.Scene.simplify_use_auto_smooth
     del bpy.types.Scene.simplify_auto_smooth_value
     del bpy.types.Scene.simplify_use_recalulate_outside

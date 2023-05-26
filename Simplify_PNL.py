@@ -42,6 +42,12 @@ class SIMPLIFY_PT_mesh(SIMPLIFY_PT_panel, bpy.types.Panel):
         row.prop(scn, "simplify_use_sharp")
         row = box_mesh.row()
         row.prop(scn, "simplify_use_seam")
+        if context.scene.simplify_use_sharp or context.scene.simplify_use_seam:
+            row = box_mesh.row()
+            row.scale_y = 2
+            row.prop(scn, "simplify_auto_select_sharp_value")
+            layout.separator(factor=1.0)
+            pass
         row = box_mesh.row()
         row.prop(scn, "simplify_use_auto_smooth")
         if context.scene.simplify_use_auto_smooth:

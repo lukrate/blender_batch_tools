@@ -36,11 +36,13 @@ class Simplify_OT_Simplify(bpy.types.Operator):
                 bpy.ops.mesh.normals_make_consistent(inside=False)
             if context.scene.simplify_use_sharp:
                 bpy.ops.mesh.select_all(action='DESELECT')
-                bpy.ops.mesh.edges_select_sharp()
+                #bpy.ops.mesh.edges_select_sharp()
+                bpy.ops.mesh.edges_select_sharp(sharpness=math.pi / 180 * context.scene.simplify_auto_select_sharp_value)
                 bpy.ops.mesh.mark_sharp()
             if context.scene.simplify_use_seam:
                 bpy.ops.mesh.select_all(action='DESELECT')
-                bpy.ops.mesh.edges_select_sharp()
+                #bpy.ops.mesh.edges_select_sharp()
+                bpy.ops.mesh.edges_select_sharp(sharpness=math.pi / 180 * context.scene.simplify_auto_select_sharp_value)
                 bpy.ops.mesh.mark_seam(clear=False)
             
             bpy.ops.mesh.select_all(action='DESELECT')
