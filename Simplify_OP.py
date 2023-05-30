@@ -43,12 +43,19 @@ class Simplify_OT_Simplify(bpy.types.Operator):
                 bpy.ops.mesh.remove_doubles()
             if context.scene.simplify_use_recalulate_outside:
                 bpy.ops.mesh.normals_make_consistent(inside=False)
+            
+            # CLEAR SHARP
             if context.scene.simplify_clear_seam:
                 bpy.ops.mesh.mark_seam(clear=True)
             if context.scene.simplify_clear_sharp:
                 bpy.ops.mesh.mark_sharp(clear=True)
             if context.scene.simplify_clear_bevel:
-                bpy.ops.mesh.customdata_bevel_weight_edge_clear()
+                bpy.ops.object.editmode_toggle()
+                for obj in active_objs:
+                    edges = [e for e in obj.data.edges if e.select]
+                    for edge in edges:
+                        edge.bevel_weight=0
+                bpy.ops.object.editmode_toggle()
 
             ## SELECT SHARP
             bpy.ops.mesh.select_all(action='DESELECT')
@@ -59,8 +66,6 @@ class Simplify_OT_Simplify(bpy.types.Operator):
             if context.scene.simplify_use_seam:
                 bpy.ops.mesh.mark_seam(clear=False)
             if context.scene.simplify_use_bevel:
-                ##bpy.ops.mesh.customdata_bevel_weight_edge_clear()
-                bpy.ops.mesh.customdata_bevel_weight_edge_add()
                 bpy.ops.object.editmode_toggle()
                 for obj in active_objs:
                     edges = [e for e in obj.data.edges if e.select]
@@ -92,18 +97,14 @@ class Simplify_OT_Simplify(bpy.types.Operator):
             if obj.type == "MESH":
                 context.view_layer.objects.active = obj
 
-                if context.scene.simplify_use_bevel:
-                    pass
-
                 if obj.data.has_custom_normals and context.scene.simplify_use_clear_custom_data:
                     bpy.ops.mesh.customdata_custom_splitnormals_clear()
                 
                 if context.scene.simplify_use_apply_scale_rotate:
                     bpy.ops.object.transform_apply(location=False, rotation=True, scale=True)
 
+                bpy.data.objects[obj.name].data.use_auto_smooth = context.scene.simplify_use_auto_smooth
                 if context.scene.simplify_use_auto_smooth:
-                    #bpy.ops.object.shade_smooth()
-                    bpy.data.objects[obj.name].data.use_auto_smooth = True
                     obj.data.auto_smooth_angle = math.pi / 180 * context.scene.simplify_auto_smooth_value
                 
                 ## Modifiers
