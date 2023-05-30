@@ -52,15 +52,27 @@ class Simplify_OT_Simplify(bpy.types.Operator):
 
             ## SELECT SHARP
             bpy.ops.mesh.select_all(action='DESELECT')
+            bpy.ops.mesh.select_mode(use_extend=False, use_expand=False, type='EDGE')
             bpy.ops.mesh.edges_select_sharp(sharpness=math.pi / 180 * context.scene.simplify_auto_select_sharp_value)
             if context.scene.simplify_use_sharp:
                 bpy.ops.mesh.mark_sharp(clear=False)
             if context.scene.simplify_use_seam:
                 bpy.ops.mesh.mark_seam(clear=False)
             if context.scene.simplify_use_bevel:
-                bpy.ops.mesh.customdata_bevel_weight_edge_clear()
+                ##bpy.ops.mesh.customdata_bevel_weight_edge_clear()
                 bpy.ops.mesh.customdata_bevel_weight_edge_add()
+                bpy.ops.object.editmode_toggle()
+                for obj in active_objs:
+                    edges = [e for e in obj.data.edges if e.select]
+                    for edge in edges:
+                        edge.bevel_weight=1
+                bpy.ops.object.editmode_toggle()
             
+            if context.scene.simplify_use_uv_unwrap:
+                bpy.ops.mesh.select_all(action='SELECT')
+                bpy.ops.uv.unwrap(method='ANGLE_BASED', margin=0.001)
+
+
             #bpy.ops.mesh.select_all(action='DESELECT')
             bpy.ops.object.editmode_toggle()
 
@@ -80,6 +92,9 @@ class Simplify_OT_Simplify(bpy.types.Operator):
             if obj.type == "MESH":
                 context.view_layer.objects.active = obj
 
+                if context.scene.simplify_use_bevel:
+                    pass
+
                 if obj.data.has_custom_normals and context.scene.simplify_use_clear_custom_data:
                     bpy.ops.mesh.customdata_custom_splitnormals_clear()
                 
@@ -90,11 +105,6 @@ class Simplify_OT_Simplify(bpy.types.Operator):
                     bpy.ops.object.shade_smooth()
                     obj.data.use_auto_smooth = True
                     obj.data.auto_smooth_angle = math.pi / 180 * context.scene.simplify_auto_smooth_value
-
-                if context.scene.simplify_use_bevel:
-                    edges = [e for e in obj.data.edges if e.select]
-                    for edge in edges:
-                        edge.bevel_weight=1
                 
                 ## Modifiers
 
@@ -102,10 +112,18 @@ class Simplify_OT_Simplify(bpy.types.Operator):
                     bpy.ops.mesh.customdata_custom_splitnormals_clear()
                     dec = obj.modifiers.new("Simplify Decimate", type="DECIMATE")
                     dec.ratio = context.scene.simplify_decimate_value
-
+                
                 if context.scene.simplify_use_auto_mirror:
                     bpy.ops.object.automirror()
                 
+                if context.scene.simplify_use_bevel_modifier:
+                    bpy.ops.mesh.customdata_custom_splitnormals_clear()
+                    bev = obj.modifiers.new("Simplify Bevel", type="BEVEL")
+                    bev.width = 0.01
+                    bev.segments = 3
+                    bev.limit_method = "WEIGHT"
+
+
                 if context.scene.simplify_use_apply_all_modifiers:
                     for name in [m.name for m in obj.modifiers]:
                         bpy.ops.object.modifier_apply( modifier = name )

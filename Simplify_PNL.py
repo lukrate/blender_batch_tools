@@ -51,12 +51,18 @@ class SIMPLIFY_PT_mesh(SIMPLIFY_PT_panel, bpy.types.Panel):
         row = box_mesh.row()
         row.prop(scn, "simplify_clear_bevel")
         row.prop(scn, "simplify_use_bevel")
-
+        
         if context.scene.simplify_use_sharp or context.scene.simplify_use_seam or context.scene.simplify_use_bevel:
             row = box_mesh.row()
             row.scale_y = 2
             row.prop(scn, "simplify_auto_select_sharp_value")
             layout.separator(factor=1.0)
+            row = box_mesh.row()
+            row.prop(scn, "simplify_use_bevel_modifier")
+        
+        ## uv unwrap
+        row = box_mesh.row()
+        row.prop(scn, "simplify_use_uv_unwrap")
         
         box_mesh = layout.box()
         row = box_mesh.row()
@@ -90,8 +96,14 @@ class SIMPLIFY_PT_modifiers(SIMPLIFY_PT_panel, bpy.types.Panel):
         else:
             row.alert = True
             row.label(text="install auto mirror addon")
+        
+        row = box_modifiers.row()
+        row.prop(scn, "simplify_use_bevel_modifier")
+        
         row = box_modifiers.row()
         row.prop(scn, "simplify_use_apply_all_modifiers")
+
+
 
 class SIMPLIFY_PT_materials(SIMPLIFY_PT_panel, bpy.types.Panel):
     bl_parent_id = "SIMPLYIFY_PT_main"

@@ -11,19 +11,26 @@ def registerDataTypes():
     bpy.types.Scene.simplify_use_seam = bpy.props.BoolProperty(name="Add Seam", description="Add Seam to the Sharp Edges", default=False)
     bpy.types.Scene.simplify_use_bevel = bpy.props.BoolProperty(name="Add Bevel Weight", description="Add Bevel Weight to the Sharp Edges", default=False)
     bpy.types.Scene.simplify_auto_select_sharp_value = bpy.props.FloatProperty(name="Sharpness Value", description="Sharpness Value (min: 0.00, max: 180.00)", default=30.00, min=0.00, max=180.00, step=5)
+
+    ## UV unwrap
+    bpy.types.Scene.simplify_use_uv_unwrap = bpy.props.BoolProperty(name="UV unwrap", description="Unwrap UV", default=False)
     
     bpy.types.Scene.simplify_use_auto_smooth = bpy.props.BoolProperty(name="Auto Smooth", description="Auto Smooth", default=False)
     bpy.types.Scene.simplify_auto_smooth_value = bpy.props.FloatProperty(name="Auto Smooth Value", description="Auto Smooth Value (min: 0.00, max: 180.00)", default=80.00, min=0.00, max=180.00, step=5)
     bpy.types.Scene.simplify_use_recalulate_outside = bpy.props.BoolProperty(name="Recalculate outside", description="Recalculate normal outside", default=False)
-    bpy.types.Scene.simplify_use_auto_mirror = bpy.props.BoolProperty(name="Use Auto Mirror", description="Use automirror", default=False)
     bpy.types.Scene.simplify_use_clear_custom_data = bpy.props.BoolProperty(name="Clear custom data", description="Clear custom split normals data", default=False)
-    bpy.types.Scene.simplify_use_decimate = bpy.props.BoolProperty(name="Decimate mesh", description="Decimate the mesh", default=False)
     bpy.types.Scene.simplify_use_tri_to_quad = bpy.props.BoolProperty(name="Triangles to Quad", description="Triangles to Quad", default=False)
     bpy.types.Scene.simplify_use_merge = bpy.props.BoolProperty(name="Remove doubles", description="Merge Vertices", default=False)
+    
+    ##Modifiers
+    bpy.types.Scene.simplify_use_decimate = bpy.props.BoolProperty(name="Decimate mesh", description="Decimate the mesh", default=False)
+    bpy.types.Scene.simplify_decimate_value = bpy.props.FloatProperty(name="Decimate Value", description="Decimate Value (min: 0.01, max: 0.95)", default=0.1, min=0.01, max=0.99, step=500)
+    bpy.types.Scene.simplify_use_auto_mirror = bpy.props.BoolProperty(name="Use Auto Mirror", description="Use automirror", default=False)
+    bpy.types.Scene.simplify_use_bevel_modifier = bpy.props.BoolProperty(name="Use Bevel Modifier", description="Use Bevel Modifier", default=False)
     bpy.types.Scene.simplify_use_apply_all_modifiers = bpy.props.BoolProperty(name="Apply all modifiers", description="Apply all modifiers", default=False)
+    
     bpy.types.Scene.simplify_use_remove_unused_materials = bpy.props.BoolProperty(name="Remove unused materials", description="Remove all unused materials", default=False)
     bpy.types.Scene.simplify_use_replace_duplicate_materials = bpy.props.BoolProperty(name="Replace duplicate materials", description="Replace duplicate materials, for exemple (Material.001, Material.002 --- by --- Material) NEED MATERIAL NAME WITHOUT ' . ' (point)", default=False)
-    bpy.types.Scene.simplify_decimate_value = bpy.props.FloatProperty(name="Decimate Value", description="Decimate Value (min: 0.01, max: 0.95)", default=0.1, min=0.01, max=0.99, step=500)
     bpy.types.Scene.simplify_use_apply_scale_rotate = bpy.props.BoolProperty(name="Apply Rotate-Scale", description="Apply rotate and scale", default=False)
     
     #Properties
@@ -31,7 +38,7 @@ def registerDataTypes():
     bpy.types.Scene.simplify_reverse_objName_to_meshName = bpy.props.BoolProperty(name="Reverse", description="Meshes name to Objects name", default=False)
 
 
-    # ADD CUSTOM PROPERIES
+    #ADD CUSTOM PROPERIES
     bpy.types.Scene.simplify_add_custom_props = bpy.props.BoolProperty(name="Add Custom Properties", description="Add Custom Properies", default=False)
     bpy.types.Scene.simplify_add_custom_props_receive_shadow = bpy.props.BoolProperty(name="Add Receive Shadow", description="Add Custom Properies - Receive Shadow", default=False)
     bpy.types.Scene.simplify_add_custom_props_cast_shadow = bpy.props.BoolProperty(name="Add Cast Shadow", description="Add Custom Properies - Cast Shadow", default=False)
@@ -48,18 +55,24 @@ def unregisterDataTypes():
     del bpy.types.Scene.simplify_use_bevel
     del bpy.types.Scene.simplify_auto_select_sharp_value
 
+    del bpy.types.Scene.simplify_use_uv_unwrap
+
     del bpy.types.Scene.simplify_use_auto_smooth
     del bpy.types.Scene.simplify_auto_smooth_value
     del bpy.types.Scene.simplify_use_recalulate_outside
-    del bpy.types.Scene.simplify_use_auto_mirror
     del bpy.types.Scene.simplify_use_clear_custom_data
-    del bpy.types.Scene.simplify_use_decimate
+
     del bpy.types.Scene.simplify_use_tri_to_quad
     del bpy.types.Scene.simplify_use_merge
+    
+    del bpy.types.Scene.simplify_use_decimate
+    del bpy.types.Scene.simplify_decimate_value
+    del bpy.types.Scene.simplify_use_auto_mirror
+    del bpy.types.Scene.simplify_use_bevel_modifier
     del bpy.types.Scene.simplify_use_apply_all_modifiers
+
     del bpy.types.Scene.simplify_use_remove_unused_materials
     del bpy.types.Scene.simplify_use_replace_duplicate_materials
-    del bpy.types.Scene.simplify_decimate_value
     del bpy.types.Scene.simplify_use_apply_scale_rotate
     
     del bpy.types.Scene.simplify_use_objName_to_meshName
