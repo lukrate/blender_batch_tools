@@ -18,7 +18,7 @@ bl_info = {
     "author" : "Boris",
     "description" : "Batch/stackable tools for lot of repetitive manipulation",
     "blender" : (3, 5, 1),
-    "version" : (0, 0, 6),
+    "version" : (0, 0, 7),
     "location" : "3D View",
     "category" : "Mesh"
 }
