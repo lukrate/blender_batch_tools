@@ -29,12 +29,14 @@ ___
 - Clear / Add Sharp (to Sharp Edges)
 - Clear / Add Seam (to Sharp Edges)
 - Clear / Add Bevel Weight (to Sharp Edges)
+- Uv unwrap
 
 - Auto Smooth
 
 ### Modifiers
 - Decimate mesh
 - Auto Mirror
+- Bevel modifier (WIP - only in weight)
 - Apply all modifiers
 
 ### Materials
