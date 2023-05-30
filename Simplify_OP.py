@@ -102,8 +102,8 @@ class Simplify_OT_Simplify(bpy.types.Operator):
                     bpy.ops.object.transform_apply(location=False, rotation=True, scale=True)
 
                 if context.scene.simplify_use_auto_smooth:
-                    bpy.ops.object.shade_smooth()
-                    obj.data.use_auto_smooth = True
+                    #bpy.ops.object.shade_smooth()
+                    bpy.data.objects[obj.name].data.use_auto_smooth = True
                     obj.data.auto_smooth_angle = math.pi / 180 * context.scene.simplify_auto_smooth_value
                 
                 ## Modifiers
