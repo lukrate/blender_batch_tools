@@ -23,13 +23,16 @@ This is a simple addon to make multiple actions on multiple objects in the same 
 - Triangles to quad
 - Remove doubles
 - Recalculate outside (normal)
-- Add Sharp (to Sharp Edges)
-- Add Seam (to Sharp Edges)
-- Auto Smooth
-- Auto Mirror
-- Decimate mesh
+___
 
-### Meshes
+- Clear / Add Sharp (to Sharp Edges)
+- Clear / Add Seam (to Sharp Edges)
+- Clear / Add Bevel Weight (to Sharp Edges)
+- Auto Smooth
+
+### Modifiers
+- Decimate mesh
+- Auto Mirror
 - Apply all modifiers
 
 ### Materials

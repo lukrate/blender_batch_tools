@@ -38,16 +38,27 @@ class SIMPLIFY_PT_mesh(SIMPLIFY_PT_panel, bpy.types.Panel):
         row.prop(scn, "simplify_use_merge")
         row = box_mesh.row()
         row.prop(scn, "simplify_use_recalulate_outside")
+        
+        
+        ## sharpness tools
+        box_mesh = layout.box()
         row = box_mesh.row()
+        row.prop(scn, "simplify_clear_sharp")
         row.prop(scn, "simplify_use_sharp")
         row = box_mesh.row()
+        row.prop(scn, "simplify_clear_seam")
         row.prop(scn, "simplify_use_seam")
-        if context.scene.simplify_use_sharp or context.scene.simplify_use_seam:
+        row = box_mesh.row()
+        row.prop(scn, "simplify_clear_bevel")
+        row.prop(scn, "simplify_use_bevel")
+
+        if context.scene.simplify_use_sharp or context.scene.simplify_use_seam or context.scene.simplify_use_bevel:
             row = box_mesh.row()
             row.scale_y = 2
             row.prop(scn, "simplify_auto_select_sharp_value")
             layout.separator(factor=1.0)
-            pass
+        
+        box_mesh = layout.box()
         row = box_mesh.row()
         row.prop(scn, "simplify_use_auto_smooth")
         if context.scene.simplify_use_auto_smooth:
@@ -55,19 +66,7 @@ class SIMPLIFY_PT_mesh(SIMPLIFY_PT_panel, bpy.types.Panel):
             row.scale_y = 2
             row.prop(scn, "simplify_auto_smooth_value")
             layout.separator(factor=1.0)
-        #simplify_use_recalulate_outside
-        row = box_mesh.row()
-        if hasattr(context.scene, 'automirror'):
-            row.prop(scn, "simplify_use_auto_mirror")
-        else:
-            row.alert = True
-            row.label(text="install auto mirror addon")
-        row = box_mesh.row()
-        row.prop(scn, "simplify_use_decimate")
-        if context.scene.simplify_use_decimate:
-            row = box_mesh.row()
-            row.scale_y = 2
-            row.prop(scn, "simplify_decimate_value")
+        
 
         
 
@@ -78,7 +77,19 @@ class SIMPLIFY_PT_modifiers(SIMPLIFY_PT_panel, bpy.types.Panel):
     def draw(self, context):
         scn = context.scene
         layout = self.layout
-        box_modifiers = layout.box()  
+        box_modifiers = layout.box() 
+        row = box_modifiers.row()
+        row.prop(scn, "simplify_use_decimate")
+        if context.scene.simplify_use_decimate:
+            row = box_modifiers.row()
+            row.scale_y = 2
+            row.prop(scn, "simplify_decimate_value")
+        row = box_modifiers.row()
+        if hasattr(context.scene, 'automirror'):
+            row.prop(scn, "simplify_use_auto_mirror")
+        else:
+            row.alert = True
+            row.label(text="install auto mirror addon")
         row = box_modifiers.row()
         row.prop(scn, "simplify_use_apply_all_modifiers")
 
@@ -111,6 +122,8 @@ class SIMPLIFY_PT_props(SIMPLIFY_PT_panel, bpy.types.Panel):
         box = layout.box()
         row = box.row()
         row.prop(scn, "simplify_use_objName_to_meshName")
+        if context.scene.simplify_use_objName_to_meshName:
+            row.prop(scn, "simplify_reverse_objName_to_meshName")
 
 class SIMPLIFY_PT_customProps(SIMPLIFY_PT_panel, bpy.types.Panel):
     bl_parent_id = "SIMPLYIFY_PT_main"

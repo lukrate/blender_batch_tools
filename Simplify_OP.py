@@ -24,7 +24,16 @@ class Simplify_OT_Simplify(bpy.types.Operator):
         active_objs = context.selected_objects
         mat_list = []
 
-        if context.scene.simplify_use_tri_to_quad or context.scene.simplify_use_merge or context.scene.simplify_use_recalulate_outside or context.scene.simplify_use_seam or context.scene.simplify_use_sharp:
+        if context.scene.simplify_use_tri_to_quad or \
+            context.scene.simplify_use_merge or \
+            context.scene.simplify_use_recalulate_outside or \
+            context.scene.simplify_use_seam or \
+            context.scene.simplify_use_sharp or \
+            context.scene.simplify_use_bevel or \
+            context.scene.simplify_clear_seam or \
+            context.scene.simplify_clear_sharp or \
+            context.scene.simplify_clear_bevel:
+
             if(context.object.mode == "OBJECT"):
                 bpy.ops.object.editmode_toggle()
             bpy.ops.mesh.select_all(action='SELECT')
@@ -34,18 +43,25 @@ class Simplify_OT_Simplify(bpy.types.Operator):
                 bpy.ops.mesh.remove_doubles()
             if context.scene.simplify_use_recalulate_outside:
                 bpy.ops.mesh.normals_make_consistent(inside=False)
-            if context.scene.simplify_use_sharp:
-                bpy.ops.mesh.select_all(action='DESELECT')
-                #bpy.ops.mesh.edges_select_sharp()
-                bpy.ops.mesh.edges_select_sharp(sharpness=math.pi / 180 * context.scene.simplify_auto_select_sharp_value)
-                bpy.ops.mesh.mark_sharp()
-            if context.scene.simplify_use_seam:
-                bpy.ops.mesh.select_all(action='DESELECT')
-                #bpy.ops.mesh.edges_select_sharp()
-                bpy.ops.mesh.edges_select_sharp(sharpness=math.pi / 180 * context.scene.simplify_auto_select_sharp_value)
-                bpy.ops.mesh.mark_seam(clear=False)
-            
+            if context.scene.simplify_clear_seam:
+                bpy.ops.mesh.mark_seam(clear=True)
+            if context.scene.simplify_clear_sharp:
+                bpy.ops.mesh.mark_sharp(clear=True)
+            if context.scene.simplify_clear_bevel:
+                bpy.ops.mesh.customdata_bevel_weight_edge_clear()
+
+            ## SELECT SHARP
             bpy.ops.mesh.select_all(action='DESELECT')
+            bpy.ops.mesh.edges_select_sharp(sharpness=math.pi / 180 * context.scene.simplify_auto_select_sharp_value)
+            if context.scene.simplify_use_sharp:
+                bpy.ops.mesh.mark_sharp(clear=False)
+            if context.scene.simplify_use_seam:
+                bpy.ops.mesh.mark_seam(clear=False)
+            if context.scene.simplify_use_bevel:
+                bpy.ops.mesh.customdata_bevel_weight_edge_clear()
+                bpy.ops.mesh.customdata_bevel_weight_edge_add()
+            
+            #bpy.ops.mesh.select_all(action='DESELECT')
             bpy.ops.object.editmode_toggle()
 
         if context.scene.simplify_use_replace_duplicate_materials:
@@ -70,14 +86,25 @@ class Simplify_OT_Simplify(bpy.types.Operator):
                 if context.scene.simplify_use_apply_scale_rotate:
                     bpy.ops.object.transform_apply(location=False, rotation=True, scale=True)
 
+                if context.scene.simplify_use_auto_smooth:
+                    bpy.ops.object.shade_smooth()
+                    obj.data.use_auto_smooth = True
+                    obj.data.auto_smooth_angle = math.pi / 180 * context.scene.simplify_auto_smooth_value
 
-                if context.scene.simplify_use_auto_mirror:
-                    bpy.ops.object.automirror()
+                if context.scene.simplify_use_bevel:
+                    edges = [e for e in obj.data.edges if e.select]
+                    for edge in edges:
+                        edge.bevel_weight=1
                 
+                ## Modifiers
+
                 if context.scene.simplify_use_decimate:
                     bpy.ops.mesh.customdata_custom_splitnormals_clear()
                     dec = obj.modifiers.new("Simplify Decimate", type="DECIMATE")
                     dec.ratio = context.scene.simplify_decimate_value
+
+                if context.scene.simplify_use_auto_mirror:
+                    bpy.ops.object.automirror()
                 
                 if context.scene.simplify_use_apply_all_modifiers:
                     for name in [m.name for m in obj.modifiers]:
@@ -85,14 +112,12 @@ class Simplify_OT_Simplify(bpy.types.Operator):
 
                 if context.scene.simplify_use_remove_unused_materials:
                     bpy.ops.object.material_slot_remove_unused()
-                
-                if context.scene.simplify_use_auto_smooth:
-                    bpy.ops.object.shade_smooth()
-                    obj.data.use_auto_smooth = True
-                    obj.data.auto_smooth_angle = math.pi / 180 * context.scene.simplify_auto_smooth_value
 
                 if context.scene.simplify_use_objName_to_meshName:
-                    bpy.data.objects[obj.name].data.name = bpy.data.objects[obj.name].name
+                    if not context.scene.simplify_reverse_objName_to_meshName:
+                        bpy.data.objects[obj.name].data.name = bpy.data.objects[obj.name].name
+                    else:
+                        bpy.data.objects[obj.name].name = bpy.data.objects[obj.name].data.name
 
                 if context.scene.simplify_add_custom_props:
                     if context.scene.simplify_add_custom_props_cast_shadow:

@@ -1,8 +1,15 @@
 import bpy
 
 def registerDataTypes():
+    ## SHARP TOOLS
+
+    bpy.types.Scene.simplify_clear_sharp = bpy.props.BoolProperty(name="Clear Sharp", description="Clear Sharp to the Sharp Edges", default=False)
+    bpy.types.Scene.simplify_clear_seam = bpy.props.BoolProperty(name="Clear Seam", description="Clear Seam to the Sharp Edges", default=False)
+    bpy.types.Scene.simplify_clear_bevel = bpy.props.BoolProperty(name="Clear Bevel Weight", description="Clear Bevel Weight to the Sharp Edges", default=False)
+
     bpy.types.Scene.simplify_use_sharp = bpy.props.BoolProperty(name="Add Sharp", description="Add Sharp to the Sharp Edges", default=False)
     bpy.types.Scene.simplify_use_seam = bpy.props.BoolProperty(name="Add Seam", description="Add Seam to the Sharp Edges", default=False)
+    bpy.types.Scene.simplify_use_bevel = bpy.props.BoolProperty(name="Add Bevel Weight", description="Add Bevel Weight to the Sharp Edges", default=False)
     bpy.types.Scene.simplify_auto_select_sharp_value = bpy.props.FloatProperty(name="Sharpness Value", description="Sharpness Value (min: 0.00, max: 180.00)", default=30.00, min=0.00, max=180.00, step=5)
     
     bpy.types.Scene.simplify_use_auto_smooth = bpy.props.BoolProperty(name="Auto Smooth", description="Auto Smooth", default=False)
@@ -20,7 +27,9 @@ def registerDataTypes():
     bpy.types.Scene.simplify_use_apply_scale_rotate = bpy.props.BoolProperty(name="Apply Rotate-Scale", description="Apply rotate and scale", default=False)
     
     #Properties
-    bpy.types.Scene.simplify_use_objName_to_meshName = bpy.props.BoolProperty(name="Object Name to Mesh Name", description="Change the name of the mesh by the name of the object", default=False)
+    bpy.types.Scene.simplify_use_objName_to_meshName = bpy.props.BoolProperty(name="Objects Name to Meshes Name", description="Change the name of the mesh by the name of the object", default=False)
+    bpy.types.Scene.simplify_reverse_objName_to_meshName = bpy.props.BoolProperty(name="Reverse", description="Meshes name to Objects name", default=False)
+
 
     # ADD CUSTOM PROPERIES
     bpy.types.Scene.simplify_add_custom_props = bpy.props.BoolProperty(name="Add Custom Properties", description="Add Custom Properies", default=False)
@@ -30,8 +39,13 @@ def registerDataTypes():
     bpy.types.Scene.simplify_add_custom_props_cast_shadow_value = bpy.props.BoolProperty(name="Set Cast Shadow Value", description="Set Custom Properies - Cast Shadow", default=False)
 
 def unregisterDataTypes():
+    del bpy.types.Scene.simplify_clear_sharp
+    del bpy.types.Scene.simplify_clear_seam
+    del bpy.types.Scene.simplify_clear_bevel
+
     del bpy.types.Scene.simplify_use_sharp
     del bpy.types.Scene.simplify_use_seam
+    del bpy.types.Scene.simplify_use_bevel
     del bpy.types.Scene.simplify_auto_select_sharp_value
 
     del bpy.types.Scene.simplify_use_auto_smooth
@@ -49,6 +63,7 @@ def unregisterDataTypes():
     del bpy.types.Scene.simplify_use_apply_scale_rotate
     
     del bpy.types.Scene.simplify_use_objName_to_meshName
+    del bpy.types.Scene.simplify_reverse_objName_to_meshName
 
 
     del bpy.types.Scene.simplify_add_custom_props
