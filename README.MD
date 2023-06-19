@@ -31,12 +31,12 @@ ___
 - Clear / Add Bevel Weight (to Sharp Edges)
 - Uv unwrap
 
-- Auto Smooth
+- Auto Smooth (add/remove)
 
 ### Modifiers
 - Decimate mesh
 - Auto Mirror
-- Bevel modifier (WIP - only in weight)
+- Bevel modifier (Angle Value)
 - Apply all modifiers
 
 ### Materials

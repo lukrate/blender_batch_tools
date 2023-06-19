@@ -15,7 +15,8 @@ def registerDataTypes():
     ## UV unwrap
     bpy.types.Scene.simplify_use_uv_unwrap = bpy.props.BoolProperty(name="UV unwrap", description="Unwrap UV", default=False)
     
-    bpy.types.Scene.simplify_use_auto_smooth = bpy.props.BoolProperty(name="Auto Smooth", description="Auto Smooth", default=False)
+    bpy.types.Scene.simplify_add_auto_smooth = bpy.props.BoolProperty(name="Add", description="Add Auto Smooth", default=False)
+    bpy.types.Scene.simplify_remove_auto_smooth = bpy.props.BoolProperty(name="Remove", description="Remove Auto Smooth", default=False)
     bpy.types.Scene.simplify_auto_smooth_value = bpy.props.FloatProperty(name="Auto Smooth Value", description="Auto Smooth Value (min: 0.00, max: 180.00)", default=80.00, min=0.00, max=180.00, step=5)
     bpy.types.Scene.simplify_use_recalulate_outside = bpy.props.BoolProperty(name="Recalculate outside", description="Recalculate normal outside", default=False)
     bpy.types.Scene.simplify_use_clear_custom_data = bpy.props.BoolProperty(name="Clear custom data", description="Clear custom split normals data", default=False)
@@ -24,9 +25,11 @@ def registerDataTypes():
     
     ##Modifiers
     bpy.types.Scene.simplify_use_decimate = bpy.props.BoolProperty(name="Decimate mesh", description="Decimate the mesh", default=False)
-    bpy.types.Scene.simplify_decimate_value = bpy.props.FloatProperty(name="Decimate Value", description="Decimate Value (min: 0.01, max: 0.95)", default=0.1, min=0.01, max=0.99, step=500)
-    bpy.types.Scene.simplify_use_auto_mirror = bpy.props.BoolProperty(name="Use Auto Mirror", description="Use automirror", default=False)
-    bpy.types.Scene.simplify_use_bevel_modifier = bpy.props.BoolProperty(name="Use Bevel Modifier", description="Use Bevel Modifier", default=False)
+    bpy.types.Scene.simplify_decimate_value = bpy.props.FloatProperty(name="Decimate Value", description="Decimate Value (min: 0.01, max: 0.95)", default=0.5, min=0.01, max=0.95, step=10)
+    bpy.types.Scene.simplify_use_auto_mirror = bpy.props.BoolProperty(name="Add Auto Mirror", description="Add automirror", default=False)
+    bpy.types.Scene.simplify_use_bevel_modifier_weight = bpy.props.BoolProperty(name="Add Bevel Modifier (Weight)", description="Add Bevel Modifier", default=False)
+    bpy.types.Scene.simplify_use_bevel_modifier = bpy.props.BoolProperty(name="Add Bevel Modifier (Angle)", description="Add Bevel Modifier", default=False)
+    bpy.types.Scene.simplify_bevel_modifier_angle = bpy.props.FloatProperty(name="Angle Value", description="Angle Value (min: 0.00, max: 180.00)", default=30.00, min=0.00, max=180.00, step=5)
     bpy.types.Scene.simplify_use_apply_all_modifiers = bpy.props.BoolProperty(name="Apply all modifiers", description="Apply all modifiers", default=False)
     
     bpy.types.Scene.simplify_use_remove_unused_materials = bpy.props.BoolProperty(name="Remove unused materials", description="Remove all unused materials", default=False)
@@ -57,7 +60,8 @@ def unregisterDataTypes():
 
     del bpy.types.Scene.simplify_use_uv_unwrap
 
-    del bpy.types.Scene.simplify_use_auto_smooth
+    del bpy.types.Scene.simplify_add_auto_smooth
+    del bpy.types.Scene.simplify_remove_auto_smooth
     del bpy.types.Scene.simplify_auto_smooth_value
     del bpy.types.Scene.simplify_use_recalulate_outside
     del bpy.types.Scene.simplify_use_clear_custom_data
@@ -68,7 +72,9 @@ def unregisterDataTypes():
     del bpy.types.Scene.simplify_use_decimate
     del bpy.types.Scene.simplify_decimate_value
     del bpy.types.Scene.simplify_use_auto_mirror
+    del bpy.types.Scene.simplify_use_bevel_modifier_weight
     del bpy.types.Scene.simplify_use_bevel_modifier
+    del bpy.types.Scene.simplify_bevel_modifier_angle
     del bpy.types.Scene.simplify_use_apply_all_modifiers
 
     del bpy.types.Scene.simplify_use_remove_unused_materials

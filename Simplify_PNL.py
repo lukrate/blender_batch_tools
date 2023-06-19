@@ -41,6 +41,7 @@ class SIMPLIFY_PT_mesh(SIMPLIFY_PT_panel, bpy.types.Panel):
         
         
         ## sharpness tools
+        layout.label(text="Sharpness Edge Tools:")
         box_mesh = layout.box()
         row = box_mesh.row()
         row.prop(scn, "simplify_clear_sharp")
@@ -58,16 +59,18 @@ class SIMPLIFY_PT_mesh(SIMPLIFY_PT_panel, bpy.types.Panel):
             row.prop(scn, "simplify_auto_select_sharp_value")
             layout.separator(factor=1.0)
             row = box_mesh.row()
-            row.prop(scn, "simplify_use_bevel_modifier")
+            row.prop(scn, "simplify_use_bevel_modifier_weight")
         
         ## uv unwrap
         row = box_mesh.row()
         row.prop(scn, "simplify_use_uv_unwrap")
         
+        layout.label(text="Auto Smooth:")
         box_mesh = layout.box()
         row = box_mesh.row()
-        row.prop(scn, "simplify_use_auto_smooth")
-        if context.scene.simplify_use_auto_smooth:
+        row.prop(scn, "simplify_add_auto_smooth")
+        row.prop(scn, "simplify_remove_auto_smooth")
+        if context.scene.simplify_add_auto_smooth:
             row = box_mesh.row()
             row.scale_y = 2
             row.prop(scn, "simplify_auto_smooth_value")
@@ -99,6 +102,10 @@ class SIMPLIFY_PT_modifiers(SIMPLIFY_PT_panel, bpy.types.Panel):
         
         row = box_modifiers.row()
         row.prop(scn, "simplify_use_bevel_modifier")
+        if context.scene.simplify_use_bevel_modifier:
+            row = box_modifiers.row()
+            row.scale_y = 2
+            row.prop(scn, "simplify_bevel_modifier_angle")
         
         row = box_modifiers.row()
         row.prop(scn, "simplify_use_apply_all_modifiers")

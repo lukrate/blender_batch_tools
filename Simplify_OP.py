@@ -103,26 +103,48 @@ class Simplify_OT_Simplify(bpy.types.Operator):
                 if context.scene.simplify_use_apply_scale_rotate:
                     bpy.ops.object.transform_apply(location=False, rotation=True, scale=True)
 
-                bpy.data.objects[obj.name].data.use_auto_smooth = context.scene.simplify_use_auto_smooth
-                if context.scene.simplify_use_auto_smooth:
+                if context.scene.simplify_add_auto_smooth:
+                    bpy.data.objects[obj.name].data.use_auto_smooth = True
                     obj.data.auto_smooth_angle = math.pi / 180 * context.scene.simplify_auto_smooth_value
-                
+                if context.scene.simplify_remove_auto_smooth:
+                    bpy.data.objects[obj.name].data.use_auto_smooth = False
+                    
                 ## Modifiers
 
                 if context.scene.simplify_use_decimate:
                     bpy.ops.mesh.customdata_custom_splitnormals_clear()
-                    dec = obj.modifiers.new("Simplify Decimate", type="DECIMATE")
-                    dec.ratio = context.scene.simplify_decimate_value
+                    modifier_name = "Simplify Decimate"
+                    try:
+                        obj.modifiers[modifier_name]
+                    except KeyError:
+                        dec = obj.modifiers.new(modifier_name, type="DECIMATE")
+                        dec.ratio = context.scene.simplify_decimate_value
                 
                 if context.scene.simplify_use_auto_mirror:
                     bpy.ops.object.automirror()
                 
+                if context.scene.simplify_use_bevel_modifier_weight:
+                    bpy.ops.mesh.customdata_custom_splitnormals_clear()
+                    modifier_name = "Simplify Bevel Weight"
+                    try:
+                        obj.modifiers[modifier_name]
+                    except KeyError:
+                        bev = obj.modifiers.new(modifier_name, type="BEVEL")
+                        bev.width = 0.015
+                        bev.segments = 3
+                        bev.limit_method = "WEIGHT"
+
                 if context.scene.simplify_use_bevel_modifier:
                     bpy.ops.mesh.customdata_custom_splitnormals_clear()
-                    bev = obj.modifiers.new("Simplify Bevel", type="BEVEL")
-                    bev.width = 0.01
-                    bev.segments = 3
-                    bev.limit_method = "WEIGHT"
+                    modifier_name = "Simplify Bevel Angle"
+                    try:
+                        obj.modifiers[modifier_name]
+                    except KeyError:
+                        bev = obj.modifiers.new(modifier_name, type="BEVEL")
+                        bev.width = 0.015
+                        bev.segments = 3
+                        bev.angle_limit = math.pi / 180 * context.scene.simplify_bevel_modifier_angle
+
 
 
                 if context.scene.simplify_use_apply_all_modifiers:
