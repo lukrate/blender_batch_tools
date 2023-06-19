@@ -44,14 +44,14 @@ class SIMPLIFY_PT_mesh(SIMPLIFY_PT_panel, bpy.types.Panel):
         layout.label(text="Sharpness Edge Tools:")
         box_mesh = layout.box()
         row = box_mesh.row()
-        row.prop(scn, "simplify_clear_sharp")
         row.prop(scn, "simplify_use_sharp")
+        row.prop(scn, "simplify_clear_sharp")
         row = box_mesh.row()
-        row.prop(scn, "simplify_clear_seam")
         row.prop(scn, "simplify_use_seam")
+        row.prop(scn, "simplify_clear_seam")
         row = box_mesh.row()
-        row.prop(scn, "simplify_clear_bevel")
         row.prop(scn, "simplify_use_bevel")
+        row.prop(scn, "simplify_clear_bevel")
         
         if context.scene.simplify_use_sharp or context.scene.simplify_use_seam or context.scene.simplify_use_bevel:
             row = box_mesh.row()
