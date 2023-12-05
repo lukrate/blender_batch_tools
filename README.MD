@@ -16,9 +16,7 @@
 This is a simple addon to make multiple actions on multiple objects in the same time.
 
 ## List of actions:
-___
-Origin to selection in right click menu!
-___
+
 ### Meshes
 - Clear custom data
 - Apply Rotate and scale
